@@ -1,0 +1,94 @@
+spring:
+  application:
+    name: reconciliation-engine
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/reconciliation}
+    username: ${DB_USER:reconciliation}
+    password: ${DB_PASSWORD:reconciliation}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/reconciliation_audit}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2s
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 2
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:reconciliation}
+    password: ${RABBIT_PASSWORD:reconciliation}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 16
+        retry:
+          enabled: true
+          max-attempts: 5
+          initial-interval: 500ms
+          multiplier: 2
+          max-interval: 10s
+
+reconciliation:
+  idempotency:
+    ttl: PT24H
+    lock-timeout: PT3S
+  outbox:
+    poll-interval: PT1S
+    batch-size: 100
+    max-attempts: 10
+  rabbit:
+    payments-exchange: payments.events
+    payments-queue: payments.events.q
+    dlx: payments.events.dlx
+  job:
+    cron: "0 15 2 * * *"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+
+server:
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+
+logging:
+  level:
+    root: INFO
+    com.ruvi.reconciliation: DEBUG
