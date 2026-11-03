@@ -4,7 +4,7 @@ CREATE TABLE bank_statements (
     source          VARCHAR(64)  NOT NULL,
     external_ref    VARCHAR(80)  NOT NULL,
     amount_minor    BIGINT       NOT NULL,
-    currency        CHAR(3)      NOT NULL,
+    currency        VARCHAR(3)      NOT NULL,
     posted_at       TIMESTAMPTZ  NOT NULL,
     imported_at     TIMESTAMPTZ  NOT NULL DEFAULT now(),
     CONSTRAINT uq_bank_statement_source_ref UNIQUE (source, external_ref)
@@ -33,7 +33,7 @@ CREATE TABLE discrepancies (
     bank_statement_id  UUID        REFERENCES bank_statements (id),
     expected_amount    BIGINT,
     actual_amount      BIGINT,
-    currency           CHAR(3),
+    currency           VARCHAR(3),
     details            JSONB       NOT NULL DEFAULT '{}'::jsonb,
     detected_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );

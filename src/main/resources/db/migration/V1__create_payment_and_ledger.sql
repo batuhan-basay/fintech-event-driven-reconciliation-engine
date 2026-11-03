@@ -6,7 +6,7 @@ CREATE TABLE payments (
     merchant_id     VARCHAR(64)  NOT NULL,
     customer_id     VARCHAR(64)  NOT NULL,
     amount_minor    BIGINT       NOT NULL CHECK (amount_minor > 0),
-    currency        CHAR(3)      NOT NULL,
+    currency        VARCHAR(3)      NOT NULL,
     status          VARCHAR(24)  NOT NULL,
     external_ref    VARCHAR(80),
     created_at      TIMESTAMPTZ  NOT NULL DEFAULT now(),
@@ -23,7 +23,7 @@ CREATE TABLE ledger_entries (
     account_id    VARCHAR(64)  NOT NULL,
     entry_type    VARCHAR(8)   NOT NULL CHECK (entry_type IN ('DEBIT','CREDIT')),
     amount_minor  BIGINT       NOT NULL CHECK (amount_minor > 0),
-    currency      CHAR(3)      NOT NULL,
+    currency      VARCHAR(3)      NOT NULL,
     posted_at     TIMESTAMPTZ  NOT NULL DEFAULT now()
 );
 
