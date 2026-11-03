@@ -40,7 +40,7 @@ spring:
     password: ${RABBIT_PASSWORD:reconciliation}
     listener:
       simple:
-        acknowledge-mode: manual
+        acknowledge-mode: auto
         prefetch: 16
         retry:
           enabled: true
