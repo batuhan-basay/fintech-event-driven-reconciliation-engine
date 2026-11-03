@@ -1,0 +1,16 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.jdt.ls.java.home": null,
+  "java.configuration.runtimes": [
+    { "name": "JavaSE-21", "default": true }
+  ],
+  "maven.executable.preferMavenWrapper": true,
+  "spring-boot.ls.java.home": null,
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  }
+}

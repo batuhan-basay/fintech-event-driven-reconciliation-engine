@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run ReconciliationEngineApplication",
+      "request": "launch",
+      "mainClass": "com.ruvi.reconciliation.ReconciliationEngineApplication",
+      "projectName": "reconciliation-engine",
+      "env": {
+        "DB_URL": "jdbc:postgresql://localhost:5432/reconciliation",
+        "DB_USER": "reconciliation",
+        "DB_PASSWORD": "reconciliation",
+        "MONGO_URI": "mongodb://localhost:27017/reconciliation_audit",
+        "REDIS_HOST": "localhost",
+        "RABBIT_HOST": "localhost",
+        "RABBIT_USER": "reconciliation",
+        "RABBIT_PASSWORD": "reconciliation"
+      }
+    }
+  ]
+}
